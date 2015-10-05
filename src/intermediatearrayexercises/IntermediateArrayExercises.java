@@ -5,6 +5,9 @@
  */
 package intermediatearrayexercises;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
  *
  * @author DSTIGANT
@@ -25,12 +28,13 @@ public class IntermediateArrayExercises
         String [] eas = { };
         
         printIntArray( jenny );
+        printStringArray( jennyString );
         System.out.println( intArrayToString(jenny) );
         System.out.println( "The entries in " + intArrayToString(jenny) + " add up to " + addIntArray(jenny) );
-        System.out.println("There are " + countOddElements( jenny ) + " odd numbers in " + intArrayToString( jenny ) );
-        System.out.println("There are " + countElementsGreaterThan( jenny, 5 ) + " numbers greater than 5 in " + intArrayToString( jenny ) );
-        System.out.println("There are " + countLongWords( jennyString, 4 ) + " strings in " + stringArrayToString( jennyString ) + " that are longer than 4 letters");
-        System.out.println("There are " + countLongWords( jennyString, 's' ) + " strings in " + stringArrayToString( jennyString) + " which start with 's'" );
+        System.out.println( "There are " + countOddElements( jenny ) + " odd numbers in " + intArrayToString( jenny ) );
+        System.out.println( "There are " + countElementsGreaterThan( jenny, 5 ) + " numbers greater than 5 in " + intArrayToString( jenny ) );
+        System.out.println( "There are " + countLongWords( jennyString, 4 ) + " strings in " + stringArrayToString( jennyString ) + " that are longer than 4 letters");
+        System.out.println( "There are " + countLongWords( jennyString, 's' ) + " strings in " + stringArrayToString( jennyString) + " which start with 's'" );
         
         System.out.println( "The entries in " + intArrayToString(jenny) + " are all prime: " + allPrime(jenny) );
         System.out.println( "The entries in " + intArrayToString(ap) + " are all prime: " + allPrime(ap) );
@@ -63,7 +67,12 @@ public class IntermediateArrayExercises
     // output: the array like this: [ 8, 6, 7, 5, 3, 0, 9 ]
     public static void printIntArray( int [] arr )
     {
-        
+        System.out.print("[ ");
+        String middle = Arrays.stream(arr)
+                .mapToObj(a -> String.valueOf(a))
+                .collect(Collectors.joining(", "));
+        System.out.print(middle);
+        System.out.println(" ]");
     }
     
     // printStringArray
@@ -71,7 +80,12 @@ public class IntermediateArrayExercises
     // print out something like [ "eight", "six", "seven", "five", "three", "zero", "nine" ]
     public static void printStringArray( String [] arr )
     {
-        
+        System.out.print("[ ");
+        System.out.print(Arrays.stream(arr)
+                .map(str -> "\"" + str + "\"")
+                .collect(Collectors.joining(", "))
+        );
+        System.out.println(" ]");
     }
     
     // intArrayToString
@@ -80,7 +94,12 @@ public class IntermediateArrayExercises
     // output: a String representing the array, like this : "[ 8, 6, 7, 5, 3, 0, 9 ]"
     public static String intArrayToString( int [] arr )
     {
-        return "";
+        String output = "[ ";
+        output += Arrays.stream(arr)
+                .mapToObj(a -> String.valueOf(a))
+                .collect(Collectors.joining(", "));
+        output += " ]";
+        return output;
     }
     
     // stringArrayToString
@@ -88,7 +107,9 @@ public class IntermediateArrayExercises
     // output: a String representing the array, like this : "[ "eight", "six", "seven", "five", "three", "zero", "nine" ]"
     public static String stringArrayToString( String [] arr )
     {
-        return "";
+        return "[ " + Arrays.stream(arr)
+                .map(str -> "\"" + str + "\"")
+                .collect(Collectors.joining(", ")) + " ]";
     }
     
     // addIntArray
@@ -98,7 +119,7 @@ public class IntermediateArrayExercises
     // ex: addIntArray( {8, 6, 7, 5, 3, 0, 9} ) ==> 38
     public static int addIntArray( int [] arr )
     {
-        return 0;
+        return Arrays.stream(arr).sum();
     }
     
     // ***********************************
@@ -113,7 +134,9 @@ public class IntermediateArrayExercises
     // ex: countOddElements( {8, 6, 7, 5, 3, 0, 9} ) ==> 4
     public static int countOddElements( int [] arr )
     {
-        return 0;
+        return (int) Arrays.stream(arr)
+                .filter(a -> a%2 == 1)
+                .count();
     }
     
     // countElementsGreaterThan
@@ -123,7 +146,9 @@ public class IntermediateArrayExercises
     // ex: countElementsGreaterThan( {8, 6, 7, 5, 3, 0, 9}, 5 ) ==> 4
     public static int countElementsGreaterThan( int [] arr, int target )
     {
-        return 0;
+        return (int) Arrays.stream(arr)
+                .filter(a -> a > target)
+                .count();
     }
     
     // countLongWords
@@ -133,7 +158,9 @@ public class IntermediateArrayExercises
     // ex: countLongWords( { "eight", "six", "seven", "five", "three", "zero", "nine" }, 4 ) ==> 3
     public static int countLongWords( String [] arr, int target )
     {
-        return 0;
+        return (int) Arrays.stream(arr)
+                .filter(a -> a.length() > target)
+                .count();
     }
     
     // countWordsStartingWith
@@ -143,17 +170,22 @@ public class IntermediateArrayExercises
     // ex: countLongWords( { "eight", "six", "Seven", "five", "three", "zero", "nine" }, 's' ) ==> 2
     public static int countWordsStartingWith( String [] arr, char initial )
     {
-        return 0;
+        char initial2 = Character.toLowerCase(initial);
+        return (int) Arrays.stream(arr)
+                .filter(a -> initial2 == a.toLowerCase().charAt(0))
+                .count();
     }
     
     // countWordsWith
     // counts the words in the array which contain the target letter
-    // inptus: an array of Strings and a target char
+    // inputs: an array of Strings and a target char
     // output: the number of elements in the array which contain the target letter
     // ex: countWordsWith( { "eight", "six", "seven", "fivE", "three", "zero", "ninE" }, 'E' ) ==> 6
     public static int countWordsWith( String [] arr, char target )
     {
-        return 0;
+        return (int) Arrays.stream(arr)
+                .filter(a -> a.toLowerCase().contains(String.valueOf(Character.toLowerCase(target))))
+                .count();
     }
     
     // ***********************************
@@ -185,6 +217,8 @@ public class IntermediateArrayExercises
     // allPrime( { } ) ==> true
     public static boolean allPrime( int [] arr )
     {
+        boolean output = true;
+        
         return false;
     }
     
