@@ -217,9 +217,10 @@ public class IntermediateArrayExercises
     // allPrime( { } ) ==> true
     public static boolean allPrime( int [] arr )
     {
-        boolean output = true;
-        
-        return false;
+        for (int i : arr)
+            if (!isPrime(i))
+                return false;
+        return true;
     }
     
     // allWordsContain
@@ -232,7 +233,10 @@ public class IntermediateArrayExercises
     // allWordsContain( { } ) ==> true
     public static boolean allWordsContain( String [] arr, char c )
     {
-        return false;
+        for (String word : arr) 
+            if(!word.toLowerCase().contains(Character.toLowerCase(c) + ""))
+                return false;
+        return true;
     }
     
     // swap
@@ -246,7 +250,10 @@ public class IntermediateArrayExercises
     // swap( jenny, 0, 0 ) ==> jenny is now { 8, 6, 7, 0, 3, 5, 9 }
     public static void swap( int [] arr, int i1, int i2 )
     {
-        
+        int elem1 = arr[i1];
+        int elem2 = arr[i2];
+        arr[i1] = elem2;
+        arr[i2] = elem1;
     }
     
     // reverseNewIntArray
@@ -260,7 +267,11 @@ public class IntermediateArrayExercises
     // reverseNewIntArray( { } ) ==> { }
     public static int [] reverseNewIntArray( int [] oldArray )
     {
-        return null;
+        int[] newArray = new int[oldArray.length];
+        for (int i = 0; i < oldArray.length; i++) {
+            newArray[i] = oldArray[oldArray.length - 1 - i];
+        }
+        return newArray;
     }
     
     // reverseInPlaceIntArray
@@ -273,6 +284,9 @@ public class IntermediateArrayExercises
     // reverseInPlaceIntArray( jenny ) ==> jenny is now { 9, 0, 3, 5, 7, 6, 8 }
     public static void reverseInPlaceIntArray( int [] arr )
     {
-        
+        int l = arr.length;
+        for (int i = 0; i < l/2; i++) {
+            swap(arr, i, l-1-i);
+        }
     }
 }
